@@ -81,7 +81,7 @@
   font-size: 16px;
   cursor: pointer;
   font-weight: bold;
-  background: linear-gradient(45deg, #7b2ff7, #f107a3);
+  background: #333;
   color: white;
   transition: 0.3s;
 }
@@ -99,4 +99,45 @@
 .btn.outline:hover {
   background: #7b2ff7;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .container1 {
+    padding: 30px 10px;
+    height: auto;
+  }
+
+  .card {
+    width: 90%;
+    height: auto;
+    padding: 25px 20px;
+    border-radius: 12px;
+  }
+
+  .login {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .input-group input {
+    padding: 9px;
+    font-size: 13.5px;
+  }
+
+  .forgot {
+    font-size: 13px;
+    text-align: left;
+    margin-bottom: 15px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
 }

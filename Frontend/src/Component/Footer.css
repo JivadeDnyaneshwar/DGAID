@@ -83,3 +83,8 @@
     font-size: 0.8rem;
   }
 }
+@media (max-width:  768px) {
+  .footer{
+    padding-top: 50px;
+  }
+}

@@ -8,7 +8,7 @@ import ScrollToTop from "./Component/ScrollToTop";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ContactUs from "./pages/ContactUs";
-
+import"./pages/styles/Media.css"
 // Lazy load components
 const Home = lazy(() => import("./Component/Home"));
 const Projects = lazy(() => import("./pages/HomePage"));

@@ -1,21 +1,23 @@
 /* Overall section */
 .contact-section {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 90%;
-  max-width: 1200px;
-  margin: 60px auto;
-  gap: 40px;
+  width: 100%;
+  padding: 30px 0px 30px 0px;
+  /* max-width: 1200px; */
+  /* margin: 60px auto; */
+  gap: 100px;
   font-family: 'Poppins', sans-serif;
-  
+  background: linear-gradient(to right, black 20%, #0b3fdd 80%);
 }
 
 /* Left side */
-.contact-left {
-  flex: 1;
-  padding-right: 40px;
+.contact-left h1,
+.contact-left p {
+  color: white;
 }
+
 
 .contact-heading {
   font-size: 2.5rem;
@@ -32,7 +34,8 @@
 
 /* Right side form - premium glass look */
 .contact-right {
-  flex: 1;
+  flex: 0.6;
+
  background: linear-gradient(135deg, #ffd5ec, #d4e1ff);
   padding: 35px;
   border-radius: 20px;
@@ -171,5 +174,12 @@
 
   .contact-heading {
     font-size: 2rem;
+  }
+  .contact-section{
+    padding: 10px;
+  }
+  .contact-left{
+    width: 100%;
+    border-color: #dde1eb;
   }
 }

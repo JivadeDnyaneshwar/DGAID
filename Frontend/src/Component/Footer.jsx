@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import logo from '../assets/DGlogo.png';
+import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="footer">
@@ -9,10 +10,10 @@ export default function Footer() {
           <img src={logo} alt="Not found" />
         </div>
         <nav className="footer-nav">
-          <a href="#">Company</a>
-          <a href="#">Resources</a>
-          <a href="#">Legal</a>
-          <a href="#">Contact</a>
+          <Link to="#">Company</Link>
+          <Link to="#">Resources</Link>
+          <Link to="#">Legal</Link>
+          <Link to="/ContactUs">Contact</Link>
         </nav>
         <div className="footer-credit">
           &copy; {new Date().getFullYear()} Made with  DG AID PROJECT

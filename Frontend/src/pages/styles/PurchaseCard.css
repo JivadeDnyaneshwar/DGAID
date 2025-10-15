@@ -40,27 +40,33 @@
 }
 
 /* Primary Button */
-.btn-primary {
+.btnp-primary {
+  padding: 12px 15px 12px 15px;
+  border-radius: 5px;
   background-color: #2563eb;
   color: #ffffff;
   border: none;
   margin-right: 20px;
+  font-weight: bold;
 }
 
-.btn-primary:hover {
-  background-color: #1e40af;
+.btnp-primary:hover {
+  transform: scaleY(1.1);
+   color: black;
+  background-color: #e5e7eb !important;
 }
 
 /* Secondary Button */
 .btn-secondary {
   height: 42px;
-  background-color: #f3f4f6;
-  color: #111827;
+  background-color:#333;
+  color:white;
   border: none;
   padding: 10px 25px !important;
 }
 
 .btn-secondary:hover {
+  color: black;
   background-color: #e5e7eb;
 }
 

@@ -14,11 +14,11 @@ export default function PurchaseCard({ projectId, price }) {
       <div className="price">{price} ₹/project</div>
       <div className="action-buttons">
         {role === "admin" && (
-          <button className="btn btn-primary" onClick={handleAddProject}>
-            Add / Update Project
+          <button className="btnp btnp-primary" onClick={handleAddProject}>
+            Add Project
           </button>
         )}
-        <button className="btn btn-secondary">Purchase Now</button>
+        <button className="btnp btn-secondary">Purchase Now</button>
       </div>
     </div>
   );

@@ -9,7 +9,9 @@ const Home = () => {
     <div className="home-container">
       {/* Hero Section */}
       <div className="main-hero">
-        <div className="conside"></div>
+        <div className="conside">
+          <img src="https://res.cloudinary.com/divtbtain/image/upload/v1760525034/main_image_bnjtb0.jpg" alt="" />
+        </div>
         <section className="hero">
           <div className="hero-content">
             <div className="Dgaid">
@@ -17,12 +19,14 @@ const Home = () => {
               <h1 className="Aid">AID</h1>
             </div>
             <p>
-              Unlock Your Digital Potential. Explore<br />Our Premium Projects – Starting at Just ₹999
-            </p>
+              Unlock Your Digital Potential. Explore<br/></p>
+              <p className="premimum">Our Premium Projects. <span>Starting at Just ₹999</span> </p>
 
             {/* Buttons Section */}
             <div className="hero-buttons">
-              <Link to="/ContactUs"><button className="btn-primary">Contact Us</button></Link>
+              <Link to="/ContactUs"><button className="btn-primary">
+                
+                Contact Us</button></Link>
       
               
               <a
@@ -64,7 +68,7 @@ const Home = () => {
           Join our growing community of student creators. List your projects and
           connect with buyers eager to support your innovation.
         </p>
-        <Link to="/formproject" className="btn-secondary">
+        <Link to="/formproject" className="btnl-secondary">
           List Your Project Now
         </Link>
       </section>
