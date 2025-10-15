@@ -1,117 +1,3 @@
-// import React, { createContext, useState, useEffect, useContext } from "react";
-// import axios from "axios";
-
-// const ProjectContext = createContext();
-// export const useProjects = () => useContext(ProjectContext);
-
-// export const ProjectProvider = ({ children }) => {
-//   const [projects, setProjects] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [token, setToken] = useState(localStorage.getItem("token") || "");
-//   const [role, setRole] = useState(localStorage.getItem("role") || "user");
-
-//   const API_URL = "http://localhost:5000/api/projects";
-
-//   // Axios config with token
-//   const getConfig = () => ({
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-
-//   // Fetch all projects
-//   const fetchProjects = async () => {
-//     try {
-//       setLoading(true);
-//       const res = await axios.get(API_URL);
-//       setProjects(res.data);
-//     } catch (err) {
-//       console.error(err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Admin actions
-//   const addProject = async (project) => {
-//     if (role !== "admin") return alert("Admin only");
-//     await axios.post(API_URL, project, getConfig());
-//     fetchProjects();
-//   };
-
-//   const updateProject = async (id, project) => {
-//     if (role !== "admin") return alert("Admin only");
-//     await axios.put(`${API_URL}/${id}`, project, getConfig());
-//     fetchProjects();
-//   };
-
-//   const deleteProject = async (id) => {
-//     if (role !== "admin") return alert("Admin only");
-//     await axios.delete(`${API_URL}/${id}`, getConfig());
-//     fetchProjects();
-//   };
-
-//   // Login
-//   const login = async (email, password) => {
-//     try {
-//       const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
-//       localStorage.setItem("token", res.data.token);
-//       localStorage.setItem("role", res.data.role);
-//       setToken(res.data.token);
-//       setRole(res.data.role);
-//       fetchProjects();
-//     } catch (err) {
-//       console.error(err);
-//       alert(err.response?.data?.message || "Login failed");
-//     }
-//   };
-
-//   // Logout
-//   const logout = () => {
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("role");
-//     setToken("");
-//     setRole("user");
-//     setProjects([]);
-//   };
-
-//   useEffect(() => {
-//     fetchProjects();
-//   }, []);
-
-//   return (
-//     <ProjectContext.Provider
-//       value={{
-//         projects,
-//         loading,
-//         addProject,
-//         updateProject,
-//         deleteProject,
-//         token,
-//         role,
-//         login,
-//         logout,
-//       }}
-//     >
-//       {children}
-//     </ProjectContext.Provider>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 
@@ -124,81 +10,123 @@ export const ProjectProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [role, setRole] = useState(localStorage.getItem("role") || "user");
 
-  const API_URL = "http://localhost:5000/api/projects";
+  const API_BASE = "http://localhost:5000/api";
 
-  // Axios config with token
+  // Axios config with JWT
   const getConfig = () => ({
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  // Fetch all projects
+  /**
+   * ------------------------------------
+   * Fetch all projects (public)
+   * ------------------------------------
+   */
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(API_URL);
+      const res = await axios.get(`${API_BASE}/projects`);
       setProjects(res.data);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching projects:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Admin actions
+  /**
+   * ------------------------------------
+   * Admin actions (secured)
+   * ------------------------------------
+   */
   const addProject = async (project) => {
-    if (role !== "admin") return alert("Admin only");
-    await axios.post(API_URL, project, getConfig());
-    fetchProjects();
+    if (role !== "admin") return alert("Only admins can add projects.");
+    try {
+      await axios.post(`${API_BASE}/projects`, project, getConfig());
+      fetchProjects();
+    } catch (err) {
+      console.error("Error adding project:", err);
+      alert(err.response?.data?.message || "Failed to add project");
+    }
   };
 
   const updateProject = async (id, project) => {
-    if (role !== "admin") return alert("Admin only");
-    await axios.put(`${API_URL}/${id}`, project, getConfig());
-    fetchProjects();
+    if (role !== "admin") return alert("Only admins can update projects.");
+    try {
+      await axios.put(`${API_BASE}/projects/${id}`, project, getConfig());
+      fetchProjects();
+    } catch (err) {
+      console.error("Error updating project:", err);
+      alert(err.response?.data?.message || "Failed to update project");
+    }
   };
 
   const deleteProject = async (id) => {
-    if (role !== "admin") return alert("Admin only");
-    await axios.delete(`${API_URL}/${id}`, getConfig());
-    fetchProjects();
+    if (role !== "admin") return alert("Only admins can delete projects.");
+    try {
+      await axios.delete(`${API_BASE}/projects/${id}`, getConfig());
+      fetchProjects();
+    } catch (err) {
+      console.error("Error deleting project:", err);
+      alert(err.response?.data?.message || "Failed to delete project");
+    }
   };
 
-  // Register
-  const register = async (full_name, email, password, confirm_password) => {
+  /**
+   * ------------------------------------
+   * Register (user-only)
+   * ------------------------------------
+   */
+  const register = async (full_name, _role, email, password, confirm_password) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
+      // 🔹 Force role = "user" (ignore any other input)
+      const role = "user";
+      const res = await axios.post(`${API_BASE}/auth/register`, {
         full_name,
+        role,
         email,
         password,
         confirm_password,
       });
-      alert(res.data.message);
+      alert(res.data.message || "Registration successful");
       return true;
     } catch (err) {
-      console.error(err);
+      console.error("Registration error:", err);
       alert(err.response?.data?.message || "Registration failed");
       return false;
     }
   };
 
-  // Login
+  /**
+   * ------------------------------------
+   * Login
+   * ------------------------------------
+   */
   const login = async (email, password) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
-      setToken(res.data.token);
-      setRole(res.data.role);
+      const res = await axios.post(`${API_BASE}/auth/login`, { email, password });
+      const { token, role, message } = res.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      setToken(token);
+      setRole(role);
+
+      alert(message || "Login successful");
       fetchProjects();
       return true;
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
       alert(err.response?.data?.message || "Login failed");
       return false;
     }
   };
 
-  // Logout
+  /**
+   * ------------------------------------
+   * Logout
+   * ------------------------------------
+   */
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -207,6 +135,7 @@ export const ProjectProvider = ({ children }) => {
     setProjects([]);
   };
 
+  // Fetch projects on mount
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -223,7 +152,7 @@ export const ProjectProvider = ({ children }) => {
         role,
         login,
         logout,
-        register, // ✅ now available
+        register,
       }}
     >
       {children}
