@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-
 import "./styles/ContactUs.css";
+const apiKey = import.meta.env.VITE_API_KEY;
+const whatsapp = import.meta.env.VITE_API_NO;
 
+
+
+// InputField Component
 const InputField = ({ label, name, type, placeholder, value, onChange }) => (
   <div className="contact-field">
     <label className="contact-label" htmlFor={name}>{label}</label>
@@ -20,6 +24,7 @@ const InputField = ({ label, name, type, placeholder, value, onChange }) => (
   </div>
 );
 
+// TextArea Component
 const TextArea = ({ label, name, placeholder, value, onChange }) => (
   <div className="contact-field">
     <label className="contact-label" htmlFor={name}>{label}</label>
@@ -44,7 +49,7 @@ const ButtonWhatsApp = ({ text, phoneNumber }) => (
     target="_blank"
     rel="noopener noreferrer"
     className="contact-btn whatsapp-btn"
->
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
@@ -53,7 +58,7 @@ const ButtonWhatsApp = ({ text, phoneNumber }) => (
       viewBox="0 0 24 24"
       style={{ marginRight: "8px", verticalAlign: "middle" }}
     >
-      <path d="M20.52 3.48A11.78 11.78 0 0012 0C5.37 0 0 5.37 0 12c0 2.13.56 4.13 1.53 5.92L0 24l6.33-1.53A11.91 11.91 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.18-3.48-8.52zm-8.5 17.04c-1.96 0-3.88-.52-5.56-1.5l-.4-.23-3.76.91.95-3.67-.24-.39a10.932 10.932 0 01-1.52-5.5c0-6.08 4.94-11.02 11.02-11.02 2.95 0 5.73 1.15 7.81 3.23 2.08 2.08 3.23 4.87 3.23 7.82 0 6.08-4.94 11.02-11.02 11.02zm5.89-7.73c-.32-.16-1.89-.93-2.18-1.03-.29-.1-.5-.16-.71.16s-.81.98-.99 1.18c-.18.19-.36.21-.68.07-.32-.16-1.35-.5-2.57-1.58-.95-.84-1.59-1.88-1.78-2.2-.18-.32-.02-.49.14-.65.14-.14.32-.36.48-.54.16-.18.21-.32.32-.53.1-.21.05-.39-.03-.55-.08-.16-.71-1.7-.98-2.32-.26-.61-.53-.53-.71-.54-.18 0-.39-.01-.6-.01-.21 0-.55.08-.84.39-.29.32-1.12 1.09-1.12 2.66s1.15 3.09 1.31 3.31c.16.21 2.27 3.47 5.5 4.87 3.23 1.4 3.23.93 3.81.87.58-.05 1.89-.77 2.16-1.52.27-.74.27-1.37.19-1.51-.08-.13-.29-.21-.6-.37z"/>
+      <path d="M20.52 3.48A11.78 11.78 0 0012 0C5.37 0 0 5.37 0 12c0 2.13.56 4.13 1.53 5.92L0 24l6.33-1.53A11.91 11.91 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.18-3.48-8.52zm-8.5 17.04c-1.96 0-3.88-.52-5.56-1.5l-.4-.23-3.76.91.95-3.67-.24-.39a10.932 10.932 0 01-1.52-5.5c0-6.08 4.94-11.02 11.02-11.02 2.95 0 5.73 1.15 7.81 3.23 2.08 2.08 3.23 4.87 3.23 7.82 0 6.08-4.94 11.02-11.02 11.02zm5.89-7.73c-.32-.16-1.89-.93-2.18-1.03-.29-.1-.5-.16-.71.16s-.81.98-.99 1.18c-.18.19-.36.21-.68.07-.32-.16-1.35-.5-2.57-1.58-.95-.84-1.59-1.88-1.78-2.2-.18-.32-.02-.49.14-.65.14-.14.32-.36.48-.54.16-.18.21-.32.32-.53.1-.21.05-.39-.03-.55-.08-.16-.71-1.7-.98-2.32-.26-.61-.53-.53-.71-.54-.18 0-.39-.01-.6-.01-.21 0-.55.08-.84.39-.29.32-1.12 1.09-1.12 2.66s1.15 3.09 1.31 3.31c.16.21 2.27 3.47 5.5 4.87 3.23 1.4 3.23.93 3.81.87.58-.05 1.89-.77 2.16-1.52.27-.74.27-1.37.19-1.51-.08-.13-.29-.21-.6-.37z" />
     </svg>
     {text}
   </a>
@@ -67,15 +72,45 @@ const ContactUsPremium = () => {
     project_desc: "",
   });
 
+  const [status, setStatus] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    alert("Form submitted (UI only)");
-    setFormData({ fullname: "", email: "", contact_number: "", project_desc: "" });
+    setStatus("Sending...");
+
+    const formBody = new FormData();
+    formBody.append("name", formData.fullname);
+    formBody.append("email", formData.email);
+    formBody.append("phone", formData.contact_number);
+    formBody.append("message", formData.project_desc);
+    formBody.append("access_key", apiKey); // ✅ use env variable here
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formBody,
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus("✅ Form submitted successfully!");
+        setFormData({
+          fullname: "",
+          email: "",
+          contact_number: "",
+          project_desc: "",
+        });
+      } else {
+        setStatus("❌ Failed to submit the form. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("⚠️ Server error. Try again later.");
+    }
   };
 
   return (
@@ -124,14 +159,12 @@ const ContactUsPremium = () => {
           />
 
           <div className="contact-button-box">
-            {/* Request Proposal Button */}
             <button className="contact-btn" type="submit">
               Request Proposal
             </button>
-
-            {/* WhatsApp Button */}
-            <ButtonWhatsApp text="WhatsApp" phoneNumber="8263083161" />
+            <ButtonWhatsApp text="WhatsApp" phoneNumber={whatsapp} />
           </div>
+          {status && <p className="contact-status">{status}</p>}
         </form>
       </div>
     </section>
