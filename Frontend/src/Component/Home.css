@@ -1,13 +1,8 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 .home-container {
   font-family: 'Poppins', sans-serif;
   color: #333;
   width: 100%;
+  /* margin-top: 20px; */
 }
 .main-hero {
   width: 100%;
@@ -32,18 +27,6 @@
   color: rgb(247, 243, 243);
 }
 
-/* Hero Section */
-.hero {
-  
-  /* height: 400px;
-  width: 700px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  text-align: center;
-  color: #fff; */
-}
 .conside img{
   height: 400px;
   width: 600px;
@@ -230,6 +213,26 @@ margin-bottom: 10px;
 
 }
 
+span{
+position: relative;
+ }
+ span {
+  font-weight: bold;
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.premimum{
+  width: 200px;
+ text-align:center;
+
+  /* background-color: #00ffcc; */
+ }
+
 @media (max-width:  768px) {
   .main-hero {
     width: 100%;
@@ -316,4 +319,11 @@ right: 160px;
     opacity: 0;
   }
 }
+}
+
+
+@media (max-width:480px) {
+ .home-container {
+  margin-top: 90px;
+ }
 }
