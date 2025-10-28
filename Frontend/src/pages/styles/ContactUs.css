@@ -5,11 +5,11 @@
   align-items: center;
   width: 100%;
   padding: 30px 0px 30px 0px;
-  /* max-width: 1200px; */
-  /* margin: 60px auto; */
   gap: 100px;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to right, black 20%, #0b3fdd 80%);
+  margin-top: 70px;
+  height: 700px;
 }
 
 /* Left side */
@@ -181,5 +181,12 @@
   .contact-left{
     width: 100%;
     border-color: #dde1eb;
+  }
+}
+
+@media (max-width:480px) {
+  .contact-section{
+    margin-top: 125px;
+    height: 965px;
   }
 }

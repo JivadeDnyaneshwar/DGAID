@@ -11,6 +11,7 @@
   border-radius: 12px;
    background: linear-gradient(135deg, #ffd5ec, #d4e1ff);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-top: 110px;
 }
 
 .form-title {
@@ -128,5 +129,11 @@
     font-size: 15px;
     padding: 12px;
     margin-left: -6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-wrapper {
+    margin-top: 140px;
   }
 }

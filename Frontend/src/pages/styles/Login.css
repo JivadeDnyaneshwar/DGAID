@@ -6,6 +6,7 @@
   height: 100%;
   width: 100%;
   padding: 50px 0px 50px 0px;
+  margin-top: 70px;
   /* background-color: red; */
 }
 
@@ -139,5 +140,11 @@
     width: 100%;
     font-size: 15px;
     padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container1 {
+    margin-top: 120px;
   }
 }
